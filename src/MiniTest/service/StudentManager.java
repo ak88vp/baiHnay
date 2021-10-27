@@ -3,9 +3,11 @@ package MiniTest.service;
 import MiniTest.model.Student;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 
 public class StudentManager implements Manager<Student> {
     ArrayList<Student> listStudent = new ArrayList<>();
+    int index=0;
 
     public StudentManager(ArrayList<Student> listStudent) {
         this.listStudent = listStudent;
@@ -24,6 +26,8 @@ public class StudentManager implements Manager<Student> {
 
     @Override
     public void add(Student student) {
+        index++;
+        student.setId(index);
         listStudent.add(student);
     }
 
@@ -40,7 +44,6 @@ public class StudentManager implements Manager<Student> {
         for (int i = 0; i < listStudent.size(); i++) {
             if (listStudent.get(i).getId() == id) {
                 index = i;
-                System.out.println("Tên của học sinh bạn tìm là " + listStudent.get(i).getName());
                 return index;
             }
         }
@@ -50,17 +53,26 @@ public class StudentManager implements Manager<Student> {
 
     @Override
     public void delete(int id) {
-        listStudent.remove(find(id));
+        index--;
+        if (find(id)!=-1){
+            System.out.println("Học sinh đã được xóa . Dánh sách học sinh còn lại là :");
+            listStudent.remove(find(id));
+        }
+
     }
 
     @Override
     public void edit(int id, Student student) {
-        listStudent.set(find(id),student);
+        if (find(id)!=-1){
+            System.out.println("Học sinh bạn muốn sửa là : " +listStudent.get(find(id)));
+            listStudent.set(find(id),student);
+        }
+
     }
 
     @Override
     public void sort() {
-        listStudent.sort((a,b)-> (int) (a.getMediumScore()- b.getMediumScore()));
+        listStudent.sort(Comparator.comparingDouble(Student::getMediumScore));
         print();
     }
     public void highestScore(){

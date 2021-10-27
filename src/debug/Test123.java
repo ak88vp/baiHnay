@@ -23,6 +23,14 @@ public class Test123 {
        }
     }
 }
+class MYException extends RuntimeException{
+    public MYException() {
+    }
+    public void amaCanada(){
+        System.out.println(" nhập trong khoảng 0-5");
+    }
+
+}
 
 
 
